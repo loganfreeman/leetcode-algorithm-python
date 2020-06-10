@@ -5,6 +5,9 @@ class Node(object):
         self.rightChild = None
 
     def insert(self, data):
+        """
+        insert data into the tree, return true if inserted, else false
+        """
         ''' For inserting the data in the Tree '''
         if self.data == data:
             return False        # As BST cannot contain duplicate data
@@ -26,26 +29,24 @@ class Node(object):
                 return True
 
     def minValueNode(self, node):
+        if node is None:
+            return None
         current = node
-
-        # loop down to find the leftmost leaf
         while(current.leftChild is not None):
             current = current.leftChild
 
         return current
 
     def delete(self, data):
-        ''' For deleting the node '''
         if self is None:
             return None
-
-        # if current node's data is less than that of root node, then only search in left subtree else right subtree
         if data < self.data:
             self.leftChild = self.leftChild.delete(data)
+            return self
         elif data > self.data:
             self.rightChild = self.rightChild.delete(data)
+            return self
         else:
-            # deleting node with one child
             if self.leftChild is None:
                 temp = self.rightChild
                 self = None
@@ -54,56 +55,49 @@ class Node(object):
                 temp = self.leftChild
                 self = None
                 return temp
-
-            # deleting node with two children
-            # first get the inorder successor
-            temp = self.minValueNode(self.rightChild)
-            self.data = temp.data
-            self.rightChild = self.rightChild.delete(temp.data)
-
-        return self
+            else:
+                temp = self.minValueNode(self.rightChild)
+                self.data = temp.data
+                self.rightChild = self.rightChild.delete(temp.data)
+                return self
 
     def find(self, data):
-        ''' This function checks whether the specified data is in tree or not '''
-        if(data == self.data):
-            return True
-        elif(data < self.data):
+        if(self.data == data):
+            return self
+        elif data < self.data:
             if self.leftChild:
                 return self.leftChild.find(data)
             else:
-                return False
+                return None
         else:
             if self.rightChild:
                 return self.rightChild.find(data)
             else:
-                return False
+                return None
 
     def preorder(self):
-        '''For preorder traversal of the BST '''
         if self:
-            print(str(self.data), end=' ')
+            print(str(self.data), end=" ")
             if self.leftChild:
                 self.leftChild.preorder()
             if self.rightChild:
                 self.rightChild.preorder()
 
     def inorder(self):
-        ''' For Inorder traversal of the BST '''
         if self:
             if self.leftChild:
                 self.leftChild.inorder()
-            print(str(self.data), end=' ')
+            print(str(self.data), end=" ")
             if self.rightChild:
                 self.rightChild.inorder()
 
     def postorder(self):
-        ''' For postorder traversal of the BST '''
         if self:
             if self.leftChild:
                 self.leftChild.postorder()
             if self.rightChild:
                 self.rightChild.postorder()
-            print(str(self.data), end=' ')
+            print(str(self.data), end=" ")
 
 
 class Tree(object):
@@ -118,32 +112,26 @@ class Tree(object):
             return True
 
     def delete(self, data):
-        if self.root is not None:
+        if self.root:
             return self.root.delete(data)
 
     def find(self, data):
         if self.root:
             return self.root.find(data)
         else:
-            return False
+            return None
 
     def preorder(self):
-        if self.root is not None:
-            print()
-            print('Preorder: ')
+        if self.root:
             self.root.preorder()
 
-    def inorder(self):
-        print()
-        if self.root is not None:
-            print('Inorder: ')
-            self.root.inorder()
-
     def postorder(self):
-        print()
-        if self.root is not None:
-            print('Postorder: ')
+        if self.root:
             self.root.postorder()
+
+    def inorder(self):
+        if self.root:
+            self.root.inorder()
 
 
 if __name__ == '__main__':
