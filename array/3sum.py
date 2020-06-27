@@ -28,5 +28,29 @@ class Solution(object):
                l+=1
                r-=1
       return result
+
+    def threeSumClosest(self, num, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        num.sort()
+        error = float("infinity")
+        if len(num)<3:
+            return 0
+        for i in range(0, len(num)-2):
+            begin = i+1
+            end = len(num)-1
+            while begin<end:
+                if abs(num[i]+num[begin]+num[end]-target) < error:
+                    error = abs(num[i]+num[begin]+num[end]-target)
+                    solution = num[i]+num[begin]+num[end]
+                if num[i]+num[begin]+num[end] > target:
+                    end -= 1
+                else:
+                    begin += 1
+        return solution
 ob1 = Solution()
 print(ob1.threeSum([-1,0,1,2,-1,-4]))
+print(ob1.threeSumClosest([-1,0,1,2,-1,-4], 2))
