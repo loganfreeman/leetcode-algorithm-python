@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+pytest-xdist
+mock
+dill
+graphviz
+pycodestyle
